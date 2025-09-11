@@ -23,10 +23,13 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 /**
- * A JPanel that represents the entire mobile UI, including the main
- * gradient background, panels, and navigation bar.
+ * Home panel for the app.
+ * - Search bar moved here (above All Songs).
+ * - Playlists big card removed (playlists live in LibraryPanel).
+ * - Bottom nav: Home | Library | Account
  */
 public class Home extends JPanel {
 
@@ -56,10 +59,34 @@ public class Home extends JPanel {
         topContentPanel.setLayout(new BoxLayout(topContentPanel, BoxLayout.Y_AXIS));
         gradientPanel.add(topContentPanel, BorderLayout.NORTH);
 
+        // --- Search Bar (moved here from SearchPanel) ---
+        JPanel topSearchPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        topSearchPanel.setOpaque(false);
+        topSearchPanel.setBorder(BorderFactory.createEmptyBorder(18, 0, 6, 0));
+
+        RoundedPanel searchBar = new RoundedPanel(25, Color.WHITE);
+        searchBar.setLayout(new BorderLayout(10, 0));
+        searchBar.setPreferredSize(new Dimension(350, 48));
+
+        JLabel searchIcon = new JLabel("🔍");
+        searchIcon.setFont(new Font("Arial", Font.BOLD, 18));
+        searchIcon.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 0));
+        searchBar.add(searchIcon, BorderLayout.WEST);
+
+        JTextField searchField = new JTextField("Search for songs, artists, and more...");
+        searchField.setBorder(BorderFactory.createEmptyBorder());
+        searchField.setBackground(Color.WHITE);
+        searchField.setForeground(Color.GRAY);
+        searchField.setFont(new Font("Montserrat", Font.PLAIN, 14));
+        searchBar.add(searchField, BorderLayout.CENTER);
+
+        topSearchPanel.add(searchBar);
+        topContentPanel.add(topSearchPanel);
+
         // --- All Songs Panel (First big box) ---
         JPanel allSongsContainer = new JPanel(new FlowLayout(FlowLayout.CENTER));
         allSongsContainer.setOpaque(false);
-        allSongsContainer.setBorder(BorderFactory.createEmptyBorder(40, 0, 0, 0));
+        allSongsContainer.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
 
         RoundedPanel allSongsPanel = new RoundedPanel(25, mauvePink);
         allSongsPanel.setLayout(new GridBagLayout());
@@ -70,7 +97,7 @@ public class Home extends JPanel {
         allSongsLabel.setFont(getFont("Montserrat", Font.BOLD, 20));
         allSongsPanel.add(allSongsLabel);
 
-        // Add a mouse listener to handle clicks
+        // Navigate to AllSongsPanel on click
         allSongsPanel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -82,36 +109,10 @@ public class Home extends JPanel {
         allSongsContainer.add(allSongsPanel);
         topContentPanel.add(allSongsContainer);
 
-        // --- Playlists Panel (Second big box) ---
-        JPanel playlistsContainer = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        playlistsContainer.setOpaque(false);
-        playlistsContainer.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
-
-        RoundedPanel playlistsPanel = new RoundedPanel(25, coral);
-        playlistsPanel.setLayout(new GridBagLayout());
-        playlistsPanel.setPreferredSize(new Dimension(350, 100));
-
-        JLabel playlistsLabel = new JLabel("Playlists");
-        playlistsLabel.setForeground(Color.WHITE);
-        playlistsLabel.setFont(getFont("Montserrat", Font.BOLD, 20));
-        playlistsPanel.add(playlistsLabel);
-
-        // Add a mouse listener to handle clicks
-        playlistsPanel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                CardLayout cl = (CardLayout) (cardPanel.getLayout());
-                cl.show(cardPanel, "Playlists");
-            }
-        });
-
-        playlistsContainer.add(playlistsPanel);
-        topContentPanel.add(playlistsContainer);
-
         // --- Recently Played Label ---
         JPanel recentlyPlayedLabelContainer = new JPanel(new FlowLayout(FlowLayout.LEFT));
         recentlyPlayedLabelContainer.setOpaque(false);
-        recentlyPlayedLabelContainer.setBorder(BorderFactory.createEmptyBorder(20, 35, 10, 0)); // Padding for the label
+        recentlyPlayedLabelContainer.setBorder(BorderFactory.createEmptyBorder(2, 35, 10, 0));
         JLabel recentlyPlayedLabel = new JLabel("Recently Played");
         recentlyPlayedLabel.setForeground(Color.WHITE);
         recentlyPlayedLabel.setFont(getFont("Montserrat", Font.BOLD, 18));
@@ -121,11 +122,11 @@ public class Home extends JPanel {
         // --- The 2x2 grid panel for Recently Played Songs ---
         JPanel gridContainer = new JPanel(new FlowLayout(FlowLayout.CENTER));
         gridContainer.setOpaque(false);
-        gridContainer.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0)); // No top border as label is separate
+        gridContainer.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
-        JPanel gridPanel = new JPanel(new GridLayout(2, 2, 10, 10)); // Changed to 2x2 grid
+        JPanel gridPanel = new JPanel(new GridLayout(2, 2, 10, 10)); // 2x2 grid
         gridPanel.setOpaque(false);
-        gridPanel.setPreferredSize(new Dimension(350, 180)); // Adjusted size for 2x2
+        gridPanel.setPreferredSize(new Dimension(350, 180));
 
         // Button 1: "Decode" by Paramore
         JPanel songBox1 = createSongBox("Decode", "Paramore", "/decode_album_art.jpg", softGray);
@@ -143,20 +144,10 @@ public class Home extends JPanel {
         JPanel songBox4 = createSongBox("Still into you", "Paramore", "/still_into_you_album_art.jpg", softGray);
         gridPanel.add(songBox4);
 
-        /* add into songs to fill up th empty space
-// Button 5: "Hell Above" by Pierce the Veil
-        JPanel songBox4 = createSongBox("Hell Above", "Pierce The Veil", "/hell_above_album_art.jpg", softGray);
-        gridPanel.add(songBox4);
-// Button 6: "Misery Business" by Paramore
-        JPanel songBox4 = createSongBox("Misery Busines", "Paramore", "/missery_business_album_art.jpg", softGray);
-        gridPanel.add(songBox4);
-
-        */
-
         gridContainer.add(gridPanel);
         topContentPanel.add(gridContainer);
 
-        // Add the bottom navigation bar with the cardPanel
+        // Add the bottom navigation bar with the cardPanel (Library replaces Search)
         gradientPanel.add(createBottomNavBar(mauvePink, Color.WHITE, cardPanel), BorderLayout.SOUTH);
 
         // Now, add the ShadowPanel wrapping the phone panel to this Home JPanel
@@ -183,17 +174,14 @@ public class Home extends JPanel {
         // Album Art
         if (imagePath != null) {
             try {
-                // The key change is to prepend a "/" to the path to look from the root of the classpath
                 ImageIcon originalIcon = new ImageIcon(getClass().getResource(imagePath));
                 Image originalImage = originalIcon.getImage();
-                // Scale image down to fit the box nicely, e.g., 50x50 pixels
                 Image scaledImage = originalImage.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
                 JLabel imageLabel = new JLabel(new ImageIcon(scaledImage));
-                imageLabel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 0)); // Padding around image
+                imageLabel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 0));
                 songPanel.add(imageLabel, BorderLayout.WEST);
             } catch (Exception e) {
                 System.err.println("Could not load image: " + imagePath + " - " + e.getMessage());
-                // Fallback if image not found
                 JLabel placeholder = new JLabel("♪");
                 placeholder.setFont(getFont("SansSerif", Font.PLAIN, 30));
                 placeholder.setForeground(Color.WHITE);
@@ -201,7 +189,6 @@ public class Home extends JPanel {
                 songPanel.add(placeholder, BorderLayout.WEST);
             }
         } else {
-            // Placeholder if no image path is provided
             JLabel placeholder = new JLabel("♪");
             placeholder.setFont(getFont("SansSerif", Font.PLAIN, 30));
             placeholder.setForeground(Color.WHITE);
@@ -213,7 +200,7 @@ public class Home extends JPanel {
         JPanel textPanel = new JPanel();
         textPanel.setOpaque(false);
         textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
-        textPanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 5)); // Padding for text
+        textPanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 5));
 
         JLabel titleLabel = new JLabel(title);
         titleLabel.setForeground(Color.WHITE);
@@ -250,13 +237,13 @@ public class Home extends JPanel {
             }
         });
 
-        // Search is inactive
-        JPanel searchItem = createNavItem("🔍", "Search", inactiveColor, false);
-        searchItem.addMouseListener(new MouseAdapter() {
+        // Library replaces Search
+        JPanel libraryItem = createNavItem("🎵", "Library", inactiveColor, false);
+        libraryItem.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 CardLayout cl = (CardLayout) (cardPanel.getLayout());
-                cl.show(cardPanel, "Search");
+                cl.show(cardPanel, "Library");
             }
         });
 
@@ -271,7 +258,7 @@ public class Home extends JPanel {
         });
 
         navBar.add(homeItem);
-        navBar.add(searchItem);
+        navBar.add(libraryItem);
         navBar.add(accountItem);
 
         return navBar;

@@ -4,6 +4,7 @@ import org.GUI.Components.GradientPanel;
 import org.GUI.Components.RoundedPanel;
 import org.GUI.Components.ShadowPanel;
 
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -12,61 +13,46 @@ import java.awt.event.MouseEvent;
 public class AccountPanel extends JPanel {
 
     public AccountPanel(JPanel cardPanel) {
-        // Define colors
+        // Define colors (preserved from original)
         Color deepBlue = Color.decode("#355C7D");
         Color mutedPurple = Color.decode("#725A7A");
         Color mauvePink = Color.decode("#C56C86");
         Color coral = Color.decode("#FF7682");
         Color softGray = new Color(220, 220, 220, 100);
 
-        // Main phone panel container with rounded corners
+        // Main phone panel container with rounded corners (preserved)
         RoundedPanel phonePanel = new RoundedPanel(35, Color.BLACK);
         phonePanel.setLayout(new BorderLayout());
         phonePanel.setPreferredSize(new Dimension(400, 800));
         phonePanel.setMaximumSize(new Dimension(400, 800));
         phonePanel.setMinimumSize(new Dimension(400, 800));
 
-        // Gradient background
+        // Gradient background (preserved)
         GradientPanel gradientPanel = new GradientPanel(deepBlue, mutedPurple);
         gradientPanel.setLayout(new BorderLayout());
         phonePanel.add(gradientPanel, BorderLayout.CENTER);
 
-        // --- Top Panel with Back Button and Title ---
+        // --- Top Panel with Title (back arrow intentionally removed) ---
         JPanel topBarPanel = new JPanel();
         topBarPanel.setOpaque(false);
         topBarPanel.setLayout(new BorderLayout());
         topBarPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // Back Button (using a JLabel with a unicode character)
-        JLabel backButton = new JLabel("←");
-        backButton.setFont(new Font("Arial", Font.BOLD, 28));
-        backButton.setForeground(Color.WHITE);
-        backButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        backButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                CardLayout cl = (CardLayout) (cardPanel.getLayout());
-                cl.show(cardPanel, "Home"); // Go back to the main Home panel
-            }
-        });
-
-        // Panel Title
+        // NOTE: small arrow/backButton removed as requested — kept everything else
         JLabel titleLabel = new JLabel("Account");
         titleLabel.setFont(getFont("Montserrat", Font.BOLD, 20));
         titleLabel.setForeground(Color.WHITE);
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-        topBarPanel.add(backButton, BorderLayout.WEST);
         topBarPanel.add(titleLabel, BorderLayout.CENTER);
-
         gradientPanel.add(topBarPanel, BorderLayout.NORTH);
 
-        // --- Main Content Area (Account Options) ---
+        // --- Main Content Area (Account Options) (kept exactly as original) ---
         JPanel accountOptionsPanel = new JPanel();
         accountOptionsPanel.setOpaque(false);
-        accountOptionsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20)); // Spacing between panels
+        accountOptionsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
 
-        // Sign Up Panel
+        // Sign Up Panel (preserved)
         RoundedPanel signUpPanel = new RoundedPanel(20, softGray);
         signUpPanel.setPreferredSize(new Dimension(150, 100));
         signUpPanel.setLayout(new GridBagLayout());
@@ -83,7 +69,7 @@ public class AccountPanel extends JPanel {
             }
         });
 
-        // Log In Panel
+        // Log In Panel (preserved)
         RoundedPanel logInPanel = new RoundedPanel(20, softGray);
         logInPanel.setPreferredSize(new Dimension(150, 100));
         logInPanel.setLayout(new GridBagLayout());
@@ -105,11 +91,11 @@ public class AccountPanel extends JPanel {
 
         gradientPanel.add(accountOptionsPanel, BorderLayout.CENTER);
 
-        // Add the bottom navigation bar
+        // --- Bottom Navigation Bar (Search renamed to Library only) ---
         JPanel navBar = createBottomNavBar(mauvePink, Color.WHITE, cardPanel);
         gradientPanel.add(navBar, BorderLayout.SOUTH);
 
-        // Add the shadow effect
+        // Shadow wrapper (preserved)
         ShadowPanel shadowPanel = new ShadowPanel(phonePanel);
         this.setLayout(new GridBagLayout());
         this.setOpaque(false);
@@ -118,6 +104,7 @@ public class AccountPanel extends JPanel {
 
     /**
      * Shows a mini frame for the sign-up process.
+     * (Kept the same as original — exact logic preserved)
      */
     private void showSignUpFrame() {
         JFrame signUpFrame = new JFrame("Sign Up");
@@ -182,6 +169,7 @@ public class AccountPanel extends JPanel {
 
     /**
      * Shows a mini frame for the log-in process.
+     * (Kept the same as original — exact logic preserved)
      */
     private void showLoginFrame() {
         JFrame logInFrame = new JFrame("Log In");
@@ -243,7 +231,7 @@ public class AccountPanel extends JPanel {
         }
     }
 
-    /** Creates the bottom navigation bar. */
+    /** Creates the bottom navigation bar. (SEARCH renamed to LIBRARY only) */
     private JPanel createBottomNavBar(Color activeColor, Color inactiveColor, JPanel cardPanel) {
         JPanel navBar = new JPanel(new GridLayout(1, 3));
         navBar.setOpaque(false);
@@ -259,32 +247,26 @@ public class AccountPanel extends JPanel {
             }
         });
 
-        JPanel searchItem = createNavItem("🔍", "Search", inactiveColor, false);
-        searchItem.addMouseListener(new MouseAdapter() {
+        // <-- Only change: label/icon/text set to Library and shows "Library" card
+        JPanel libraryItem = createNavItem("🎵", "Library", inactiveColor, false);
+        libraryItem.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 CardLayout cl = (CardLayout) (cardPanel.getLayout());
-                cl.show(cardPanel, "Search");
+                cl.show(cardPanel, "Library");
             }
         });
 
         JPanel accountItem = createNavItem("👤", "Account", activeColor, true);
-        accountItem.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                CardLayout cl = (CardLayout) (cardPanel.getLayout());
-                cl.show(cardPanel, "Account");
-            }
-        });
 
         navBar.add(homeItem);
-        navBar.add(searchItem);
+        navBar.add(libraryItem);
         navBar.add(accountItem);
 
         return navBar;
     }
 
-
+    /** Creates a single item for the navigation bar. (unchanged) */
     private JPanel createNavItem(String iconText, String labelText, Color color, boolean isActive) {
         JPanel itemPanel = new JPanel();
         itemPanel.setLayout(new BoxLayout(itemPanel, BoxLayout.Y_AXIS));

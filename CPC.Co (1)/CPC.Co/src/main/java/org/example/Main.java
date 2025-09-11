@@ -1,13 +1,15 @@
 package org.example;
 
-import org.GUI.Page.*;
+import org.GUI.Page.AccountPanel;
+import org.GUI.Page.AllSongsPanel;
+import org.GUI.Page.Home;
+import org.GUI.Page.LibraryPanel;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class Main {
     public static void main(String[] args) {
-        
         System.setProperty("java.awt.headless", "false");
 
         SwingUtilities.invokeLater(() -> {
@@ -22,28 +24,17 @@ public class Main {
 
             Home homePanel = new Home(cardPanel);
             AllSongsPanel allSongsPanel = new AllSongsPanel(cardPanel);
-            PlaylistPanel playlistPanel = new PlaylistPanel(cardPanel);
-            SearchPanel searchPanel = new SearchPanel(cardPanel);
+            LibraryPanel libraryPanel = new LibraryPanel(cardPanel);
             AccountPanel accountPanel = new AccountPanel(cardPanel);
 
             cardPanel.add(homePanel, "Home");
             cardPanel.add(allSongsPanel, "AllSongs");
-            cardPanel.add(playlistPanel, "Playlists");
-            cardPanel.add(searchPanel, "Search");
+            cardPanel.add(libraryPanel, "Library");
             cardPanel.add(accountPanel, "Account");
 
             frame.setContentPane(cardPanel);
             frame.setVisible(true);
         });
     }
-
-    private static JPanel createExamplePanel(String text, Color bgColor) {
-        JPanel panel = new JPanel(new GridBagLayout());
-        panel.setBackground(bgColor);
-        JLabel label = new JLabel(text);
-        label.setFont(new Font("Arial", Font.BOLD, 30));
-        label.setForeground(Color.WHITE);
-        panel.add(label);
-        return panel;
-    }
 }
+
