@@ -1,11 +1,11 @@
-package org.example;
+package org.GUI.Components;
 
 import javax.swing.*;
 import java.awt.*;
 /**
  * A custom JPanel that paints a diagonal gradient background.
  */
-class GradientPanel extends JPanel {
+public class GradientPanel extends JPanel {
     private final Color color1;
     private final Color color2;
 

@@ -1,4 +1,8 @@
-package org.example;
+package org.GUI.Page;
+
+import org.GUI.Components.GradientPanel;
+import org.GUI.Components.RoundedPanel;
+import org.GUI.Components.ShadowPanel;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;

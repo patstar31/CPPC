@@ -1,10 +1,9 @@
-package org.example;
+package org.GUI.Components;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.RoundRectangle2D;
 
-class ShadowPanel extends JPanel {
+public class ShadowPanel extends JPanel {
     private static final int SHADOW_SIZE = 4;
 
     public ShadowPanel(JComponent component) {

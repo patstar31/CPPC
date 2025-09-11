@@ -1,5 +1,7 @@
 package org.example;
 
+import org.GUI.Page.*;
+
 import javax.swing.*;
 import java.awt.*;
 

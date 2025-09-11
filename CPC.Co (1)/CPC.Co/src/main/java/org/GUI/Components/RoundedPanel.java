@@ -1,4 +1,4 @@
-package org.example;
+package org.GUI.Components;
 
 import javax.swing.*;
 import java.awt.*;
@@ -7,7 +7,7 @@ import java.awt.geom.RoundRectangle2D;
 /**
  * A custom JPanel that paints a rounded rectangle background and clips its children to the same shape.
  */
-class RoundedPanel extends JPanel {
+public class RoundedPanel extends JPanel {
     private final int cornerRadius;
     private final Color backgroundColor;
 
